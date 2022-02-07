@@ -1,0 +1,21 @@
+﻿
+@{
+    ViewBag.Title = "New";
+}
+
+<a href="/Pokemon/List">Back to List</a>
+
+<form action="/Pokemon/Create" method="POST">
+    <div>
+        <label>Name:</label> <input type="text" name="PokemonName"/>
+    </div>
+    <div>
+        <label>Pokedex #:</label> <input type="number" name="PokedexNumber"/>
+    </div>
+    <div>
+        <label>Pokemon Type ID:</label> <input type="number" name="PokemonTypeId"/>
+    </div>
+    <div>
+        <input type="submit" value="Add Pokemon" />
+    </div>
+</form>

@@ -1,0 +1,28 @@
+﻿@model JoshDevenyi_PokemonPassionProject.Models.PokemonDto
+
+@{
+    ViewBag.Title = "Edit";
+}
+
+<h2>Update @Model.PokemonName Details</h2>
+
+<form action="/Pokemon/Update/@Model.PokemonId" method="POST">
+    <div style="display:none;">
+        <input type="number" name="PokemonId" value="@Model.PokemonId" />
+    </div>
+    <div>
+        <label>Name:</label>
+        <input type="text" name="PokemonName" value="@Model.PokemonName" />
+    </div>
+    <div>
+        <label>Pokedex #:</label>
+        <input type="number" name="PokedexNumber" value="@Model.PokedexNumber" />
+    </div>
+    <div>
+        <label>Pokemon Type ID:</label>
+        <input type="number" name="PokemonTypeId" min="1" max="18" />
+    </div>
+    <div>
+        <input type="submit" value="Update Pokemon" />
+    </div>
+</form>

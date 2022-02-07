@@ -1,0 +1,19 @@
+﻿@model JoshDevenyi_PokemonPassionProject.Models.PokemonDto
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<a href="/Pokemon/List">Go Back to Pokemon List</a>
+<br/>
+<a href="/Pokemon/Edit/@Model.PokemonId">Edit Pokemon Details</a>
+<br/>
+<a style="color:red;" href="/Pokemon/DeleteConfirm/@Model.PokemonId">Delete Pokemon</a>
+
+
+<br/>
+<h2>@Model.PokemonName</h2>
+<div>#@Model.PokedexNumber</div>
+<div>Type: @Model.PokemonType</div>
+
+

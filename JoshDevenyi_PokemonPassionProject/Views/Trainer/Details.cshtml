@@ -1,0 +1,20 @@
+﻿@model JoshDevenyi_PokemonPassionProject.Models.TrainerDto
+
+@{
+    ViewBag.Title = "Details";
+}
+
+
+<a href="/Trainer/List">Go Back to Trainer List</a>
+<br />
+<a href="/Trainer/Edit/@Model.TrainerId">Edit Trainer Details</a>
+<br />
+<a style="color:red;" href="/Trainer/DeleteConfirm/@Model.TrainerId">Delete Trainer</a>
+
+
+<br/>
+<h2>@Model.TrainerName</h2>
+<h3>@Model.TrainerTitle</h3>
+
+<p>Trainer Bio:</p>
+<p>@Model.TrainerBio</p>

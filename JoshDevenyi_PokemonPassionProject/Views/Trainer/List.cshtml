@@ -1,0 +1,15 @@
+﻿@model IEnumerable<JoshDevenyi_PokemonPassionProject.Models.TrainerDto>
+@{
+    ViewBag.Title = "List";
+}
+
+<h2>Pokemon Trainers</h2>
+<a style="color:forestgreen;" href="/Trainer/New">Add Trainer</a>
+
+@foreach (var trainer in Model)
+{
+
+    <a href="/Trainer/Details/@trainer.TrainerId"><h2>@trainer.TrainerName</h2></a>
+    <p>@trainer.TrainerTitle</p>
+
+}

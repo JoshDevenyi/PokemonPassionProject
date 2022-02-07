@@ -1,0 +1,17 @@
+﻿@model IEnumerable<JoshDevenyi_PokemonPassionProject.Models.PokemonDto>
+@{
+    ViewBag.Title = "List";
+}
+
+<h2>List</h2>
+
+<a style="color:forestgreen;" href="/Pokemon/New">Add Pokemon</a>
+
+@foreach (var pokemon in Model)
+{
+
+    <h2><span>#@pokemon.PokedexNumber </span><a href="/Pokemon/Details/@pokemon.PokemonId">@pokemon.PokemonName</a></h2>
+    
+
+}
+

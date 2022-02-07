@@ -1,0 +1,16 @@
+﻿@model JoshDevenyi_PokemonPassionProject.Models.PokemonTypeDto
+
+@{
+    ViewBag.Title = "DeleteConfirm";
+}
+
+<h2>Are you sure you want to delete @Model.PokemonTypeName?</h2>
+<a href="/PokemonType/List">Cancel</a>
+<form action="/PokemonType/Delete/@Model.PokemonTypeId" method="POST">
+
+    <input type="submit" style="background-color:red;" value="Confirm Delete" />
+
+</form>
+
+
+
