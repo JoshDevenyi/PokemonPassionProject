@@ -188,7 +188,7 @@ namespace JoshDevenyi_PokemonPassionProject.Controllers
         /// Updates a specified trainer in the system with a POST Data input
         /// </summary>
         /// <param name="id">Represents the Trainers primary key id</param>
-        /// <param name="Trainer">JSON FORM DATA of an Trainer</param>
+        /// <param name="trainer">JSON FORM DATA of an Trainer</param>
         /// <returns>
         /// HEADER: 204 (Success, No Content Response)
         /// or

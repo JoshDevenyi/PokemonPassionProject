@@ -77,7 +77,7 @@ namespace JoshDevenyi_PokemonPassionProject.Controllers
         /// Updates a specific Pokemon Type in the system with a POST data input
         /// </summary>
         /// <param name="id">The Pokemon Types' Primary Key</param>
-        /// <param name="PokemoType">JSON FORM DATA of an Pokemon Type</param>
+        /// <param name="PokemonType">JSON FORM DATA of an Pokemon Type</param>
         /// <returns>
         /// HEADER: 204 (Success, No Content Response)
         /// or
