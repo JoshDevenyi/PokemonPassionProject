@@ -3,15 +3,14 @@
     ViewBag.Title = "List";
 }
 
-<h2>List</h2>
+<h2>List of Pokémon</h2>
 
-<a style="color:forestgreen;" href="/Pokemon/New">Add Pokemon</a>
+<a style="color:forestgreen;" href="/Pokemon/New">Add Pokémon</a>
 
 @foreach (var pokemon in Model)
 {
 
-    <h2><span>#@pokemon.PokedexNumber </span><a href="/Pokemon/Details/@pokemon.PokemonId">@pokemon.PokemonName</a></h2>
+    <h3><span>@pokemon.PokedexNumber</span>. <a href="/Pokemon/Details/@pokemon.PokemonId">@pokemon.PokemonName</a></h3>
     
-
 }
 

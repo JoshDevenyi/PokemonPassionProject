@@ -4,23 +4,32 @@
 
 
 <h2>Add a New Trainer</h2>
-<a href="/Trainer/List">Go Back to Trainer List</a>
+
+<div class="linkBox">
+    <a href="/Trainer/List">Go Back to Trainer List</a>
+</div>
+
 
 <form action="/Trainer/Create" method="POST">
-    <div>
+
+    <div class="inputBox">
          <label>Name:</label>
         <input type="text" name="TrainerName" />
     </div>
-    <div>
+
+    <div class="inputBox">
         <label>Title:</label>
         <input type="text" name="TrainerTitle " />
     </div>
-    <div>
+
+    <div class="inputBox">
         <label>Bio:</label>
-        <textarea name="TrainerBio"></textarea>
+        <textarea name="TrainerBio" class="bioInput"></textarea>
     </div>
+
     <div>
         <input type="submit" value="Add Trainer" />
     </div>
+
 </form>
 

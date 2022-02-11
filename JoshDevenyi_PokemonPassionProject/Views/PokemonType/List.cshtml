@@ -1,14 +1,16 @@
 ﻿@model IEnumerable<JoshDevenyi_PokemonPassionProject.Models.PokemonTypeDto>
+
+
 @{
     ViewBag.Title = "List";
 }
 
-<h2>Pokemon Types</h2>
+<h2>Pokémon Types</h2>
 <a style="color:forestgreen;" href="/PokemonType/New">Add Type</a>
 
 @foreach (var pokemontype in Model)
 {
 
-    <a href="/PokemonType/Details/@pokemontype.PokemonTypeId"><h2>@pokemontype.PokemonTypeName</h2></a>
+    <a href="/PokemonType/Details/@pokemontype.PokemonTypeId"><h3>@pokemontype.PokemonTypeName</h3></a>
 
 }

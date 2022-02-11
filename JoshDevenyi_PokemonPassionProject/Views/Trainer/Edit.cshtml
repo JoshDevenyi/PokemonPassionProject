@@ -6,24 +6,35 @@
 
 <h2>Update @Model.TrainerName</h2>
 
+<div class="linkBox">
+    <a href="/Trainer/Details/@Model.TrainerId">Go Back to @Model.TrainerName</a>
+</div>
+
+
 <form action="/Trainer/Update/@Model.TrainerId" method="POST">
+
     <div style="display:none;">
         <input type="number" name="TrainerId" value="@Model.TrainerId" />
     </div>
-    <div>
+
+    <div class="inputBox">
         <label>Name:</label>
         <input type="text" name="TrainerName" value="@Model.TrainerName" />
     </div>
-    <div>
+
+    <div class="inputBox">
         <label>Title:</label>
         <input type="text" name="TrainerTitle" value="@Model.TrainerTitle" />
     </div>
-    <div>
+
+    <div class="inputBox">
         <label>Bio:</label>
-        <textarea name="TrainerBio">@Model.TrainerBio</textarea>
+        <textarea name="TrainerBio" class="bioInput">@Model.TrainerBio</textarea>
     </div>
-    <div>
+
+    <div class="inputBox">
         <input type="submit" value="Update Trainer" />
     </div>
+
 </form>
 

@@ -1,19 +1,34 @@
-﻿@model JoshDevenyi_PokemonPassionProject.Models.PokemonDto
+﻿@model JoshDevenyi_PokemonPassionProject.Models.ViewModels.DetailsPokemon
 
 @{
     ViewBag.Title = "Details";
 }
 
-<a href="/Pokemon/List">Go Back to Pokemon List</a>
-<br/>
-<a href="/Pokemon/Edit/@Model.PokemonId">Edit Pokemon Details</a>
-<br/>
-<a style="color:red;" href="/Pokemon/DeleteConfirm/@Model.PokemonId">Delete Pokemon</a>
+<div class ="linkBox">
+    <a href="/Pokemon/List">Go Back to Pokémon List</a>
+    <br />
+    <a href="/Pokemon/Edit/@Model.SelectedPokemon.PokemonId">Edit Pokémon Details</a>
+    <br />
+    <a style="color:red;" href="/Pokemon/DeleteConfirm/@Model.SelectedPokemon.PokemonId">Delete Pokémon</a>
+</div>
 
 
-<br/>
-<h2>@Model.PokemonName</h2>
-<div>#@Model.PokedexNumber</div>
-<div>Type: @Model.PokemonType</div>
+<h2>@Model.SelectedPokemon.PokemonName</h2>
+<p>Pokédex Number: #@Model.SelectedPokemon.PokedexNumber</p>
+<p>Type: @Model.SelectedPokemon.PokemonType</p>
+<p><em>Stats Coming Soon</em></p>
+
+
+<div>
+
+    <h3 style="margin-top:1em">@Model.SelectedPokemon.PokemonName Owners:</h3>
+
+    @foreach (var trainer in Model.SuccessfulTrainers)
+    {
+
+        <h4><a href="/Trainer/Details/@trainer.TrainerId">@trainer.TrainerName</a></h4>
+
+    }
+</div>
 
 

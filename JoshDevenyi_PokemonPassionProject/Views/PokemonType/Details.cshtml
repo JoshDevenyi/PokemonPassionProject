@@ -1,17 +1,26 @@
-﻿@model JoshDevenyi_PokemonPassionProject.Models.PokemonTypeDto
+﻿@model JoshDevenyi_PokemonPassionProject.Models.ViewModels.DetailsPokemonType
 
 @{
     ViewBag.Title = "Details";
 }
 
+<div class="linkBox">
+    <a href="/PokemonType/List">Go Back to Type List</a>
+    <br />
+    <a href="/PokemonType/Edit/@Model.SelectedPokemonType.PokemonTypeId">Edit Type Details</a>
+    <br />
+    <a style="color:red;" href="/PokemonType/DeleteConfirm/@Model.SelectedPokemonType.PokemonTypeId">Delete Type</a>
+</div>
 
-<a href="/PokemonType/List">Go Back to Type List</a>
-<br />
-<a href="/PokemonType/Edit/@Model.PokemonTypeId">Edit Type Details</a>
-<br />
-<a style="color:red;" href="/PokemonType/DeleteConfirm/@Model.PokemonTypeId">Delete Type</a>
+<div>
 
+    <h2>List of @Model.SelectedPokemonType.PokemonTypeName Pokémon</h2>
 
-<br/>
-<h2>@Model.PokemonTypeName</h2>
-<h3>List of @Model.PokemonTypeName Pokemon</h3>
+    @foreach (var pokemon in Model.RelatedPokemons)
+    {
+        <div>
+            <h3><a href="/Pokemon/Details/@pokemon.PokemonId">@pokemon.PokemonName</a></h3>
+        </div>
+    }
+
+</div>

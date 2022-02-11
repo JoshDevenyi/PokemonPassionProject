@@ -5,8 +5,12 @@
 }
 
 <h2>Are you sure you want to delete @Model.TrainerName?</h2>
-<a href="/Trainer/List">Cancel</a>
-<form action="/Trainer/Delete/@Model.TrainerId" method="POST">
+
+<div class="linkBox">
+    <a href="/Trainer/List">Cancel</a>
+</div>
+
+<form action="/Trainer/Delete/@Model.TrainerId" method="POST" class="delete">
 
     <input type="submit" style="background-color:red;" value="Confirm Delete" />
 

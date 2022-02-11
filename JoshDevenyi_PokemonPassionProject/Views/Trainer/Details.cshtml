@@ -1,20 +1,52 @@
-﻿@model JoshDevenyi_PokemonPassionProject.Models.TrainerDto
+﻿@model JoshDevenyi_PokemonPassionProject.Models.ViewModels.DetailsTrainer
 
 @{
     ViewBag.Title = "Details";
 }
 
+<div class="linkBox">
+    <a href="/Trainer/List">Go Back to Trainer List</a>
+    <br />
+    <a href="/Trainer/Edit/@Model.SelectedTrainer.TrainerId">Edit Trainer Details</a>
+    <br />
+    <a style="color:red;" href="/Trainer/DeleteConfirm/@Model.SelectedTrainer.TrainerId">Delete Trainer</a>
+</div>
 
-<a href="/Trainer/List">Go Back to Trainer List</a>
-<br />
-<a href="/Trainer/Edit/@Model.TrainerId">Edit Trainer Details</a>
-<br />
-<a style="color:red;" href="/Trainer/DeleteConfirm/@Model.TrainerId">Delete Trainer</a>
+<h2>@Model.SelectedTrainer.TrainerName</h2>
+<em>@Model.SelectedTrainer.TrainerTitle</em>
+
+<h3>Trainer Bio:</h3>
+<p>@Model.SelectedTrainer.TrainerBio</p>
 
 
-<br/>
-<h2>@Model.TrainerName</h2>
-<h3>@Model.TrainerTitle</h3>
 
-<p>Trainer Bio:</p>
-<p>@Model.TrainerBio</p>
+<div>
+    <h3>List of Pokémon Caught:</h3>
+    @foreach (var pokemon in Model.CaughtPokemons)
+    {
+
+        <h4>
+            <a href="/Pokemon/Details/@pokemon.PokemonId">@pokemon.PokemonName</a>
+            <a href="/Trainer/Unassociate/@Model.SelectedTrainer.TrainerId?PokemonId=@pokemon.PokemonId" style="color:red">[x]</a>
+        </h4>
+
+    }
+</div>
+
+<div>
+
+    <h3>Caught a new Pokémon?</h3>
+
+    <form method="POST" action="/Trainer/Associate/@Model.SelectedTrainer.TrainerId">
+        <select name="PokemonId">
+            @foreach(var pokemon in Model.RemainingPokemons)
+            {
+                <option value="@pokemon.PokemonId">@pokemon.PokemonName</option>
+            }
+        </select>
+        <input type="submit" value="Caught Pokémon" />
+    </form>
+
+</div>
+
+

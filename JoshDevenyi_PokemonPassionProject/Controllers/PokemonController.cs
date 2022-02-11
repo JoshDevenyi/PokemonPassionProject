@@ -6,7 +6,9 @@ using System.Web.Mvc;
 using System.Net.Http;
 using System.Diagnostics;
 using JoshDevenyi_PokemonPassionProject.Models;
+using JoshDevenyi_PokemonPassionProject.Models.ViewModels;
 using System.Web.Script.Serialization;
+
 
 namespace JoshDevenyi_PokemonPassionProject.Controllers
 {
@@ -20,7 +22,7 @@ namespace JoshDevenyi_PokemonPassionProject.Controllers
         static PokemonController()
         {
             client = new HttpClient();
-            client.BaseAddress = new Uri("https://localhost:44393/api/pokemondata/"); //Set Base Address For File Paths
+            client.BaseAddress = new Uri("https://localhost:44393/api/"); //Set Base Address For File Paths
         }
 
 
@@ -30,7 +32,7 @@ namespace JoshDevenyi_PokemonPassionProject.Controllers
             //objective: communicate with pokemon data api to retrieve a list of pokemon
             //curl https://localhost:44393/api/pokemondata/listpokemons
 
-            string url = "listpokemons";
+            string url = "pokemondata/listpokemons";
             HttpResponseMessage response = client.GetAsync(url).Result; //Responce we are anticipating
 
             //Check to make sure we successful connected to data controller
@@ -49,10 +51,13 @@ namespace JoshDevenyi_PokemonPassionProject.Controllers
         // GET: Pokemon/Details/5
         public ActionResult Details(int id)
         {
+
+            DetailsPokemon ViewModel = new DetailsPokemon();
+
             //objective: communicate with pokemon data api to one pokemon
             //curl https://localhost:44393/api/pokemondata/listpokemons/{id}
 
-            string url = "findpokemon/" + id;
+            string url = "pokemondata/findpokemon/" + id;
             HttpResponseMessage response = client.GetAsync(url).Result; //Responce we are anticipating
 
             //Check to make sure we successful connected to data controller
@@ -64,13 +69,31 @@ namespace JoshDevenyi_PokemonPassionProject.Controllers
             //Debug.WriteLine("Pokemon received: ");
             //Debug.WriteLine(selectedPokemon.PokemonName);
 
-            return View(SelectedPokemon);
+            ViewModel.SelectedPokemon = SelectedPokemon;
+
+            //Show trainers who have caught this pokemon
+            url = "trainerdata/listtrainersforpokemon/" + id;
+            response = client.GetAsync(url).Result;
+            IEnumerable<TrainerDto> SuccessfulTrainers = response.Content.ReadAsAsync<IEnumerable<TrainerDto>>().Result;
+
+            ViewModel.SuccessfulTrainers = SuccessfulTrainers;
+
+            return View(ViewModel);
         }
 
         // GET: Pokemon/New
         public ActionResult New()
         {
-            return View();
+            //information about all types in the system
+            //Get api/pokemontypedata/listpokemontypes
+
+            string url = "pokemontypedata/listpokemontypes";
+            HttpResponseMessage response = client.GetAsync(url).Result;
+
+            IEnumerable<PokemonTypeDto> PokemonTypeOptions = response.Content.ReadAsAsync<IEnumerable<PokemonTypeDto>>().Result;
+
+            return View(PokemonTypeOptions);
+
         }
 
         // POST: Pokemon/Create
@@ -82,7 +105,7 @@ namespace JoshDevenyi_PokemonPassionProject.Controllers
 
             //objective: add a new pokemon into our system using the API
             //curl -H "Content-Type:application/json" -d @pokemon.json https://localhost:44393/api/pokemondata/addpokemon
-            string url = "addpokemon";
+            string url = "pokemondata/addpokemon";
 
             //Converting form data into JSON object
 
@@ -112,11 +135,24 @@ namespace JoshDevenyi_PokemonPassionProject.Controllers
         // GET: Pokemon/Edit/5
         public ActionResult Edit(int id)
         {
+            UpdatePokemon ViewModel = new UpdatePokemon();
+
+
             //The existing pokemon information
-            string url = "findpokemon/" + id;
+            string url = "pokemondata/findpokemon/" + id;
             HttpResponseMessage response = client.GetAsync(url).Result;
             PokemonDto SelectedPokemon = response.Content.ReadAsAsync<PokemonDto>().Result;
-            return View(SelectedPokemon);
+            ViewModel.SelectedPokemon = SelectedPokemon;
+
+            //also like to view all types to choose from when updating this pokemon
+            url = "pokemontypedata/listpokemontypes/";
+            response = client.GetAsync(url).Result;
+            IEnumerable<PokemonTypeDto> PokemonTypeOptions = response.Content.ReadAsAsync<IEnumerable<PokemonTypeDto>>().Result;
+
+
+            ViewModel.PokemonTypeOptions = PokemonTypeOptions;
+
+            return View(ViewModel);
         }
 
         // POST: Pokemon/Update/5
@@ -126,7 +162,7 @@ namespace JoshDevenyi_PokemonPassionProject.Controllers
 
             //objective: update the details of a pokemon already in our system
             //curl -H "Content-Type:application/json" -d @pokemon.json https://localhost:44393/api/pokemondata/updatepokemon/{id}
-            string url = "updatepokemon/"+id;
+            string url = "pokemondata/updatepokemon/" + id;
 
             //Converting form data into JSON object
             string jsonpayload = jss.Serialize(pokemon);
@@ -152,7 +188,7 @@ namespace JoshDevenyi_PokemonPassionProject.Controllers
         public ActionResult DeleteConfirm(int id)
         {
             //The existing pokemon information
-            string url = "findpokemon/" + id;
+            string url = "pokemondata/findpokemon/" + id;
             HttpResponseMessage response = client.GetAsync(url).Result;
             PokemonDto SelectedPokemon = response.Content.ReadAsAsync<PokemonDto>().Result;
             return View(SelectedPokemon);
@@ -163,7 +199,7 @@ namespace JoshDevenyi_PokemonPassionProject.Controllers
         public ActionResult Delete(int id)
         {
 
-            string url = "deletepokemon/" + id;
+            string url = "pokemondata/deletepokemon/" + id;
 
             HttpContent content = new StringContent("");
             content.Headers.ContentType.MediaType = "application/json"; //Specifies that we are sending JSON information as part of the payload

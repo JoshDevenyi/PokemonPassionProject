@@ -6,6 +6,7 @@ using System.Web.Mvc;
 using System.Net.Http;
 using System.Diagnostics;
 using JoshDevenyi_PokemonPassionProject.Models;
+using JoshDevenyi_PokemonPassionProject.Models.ViewModels;
 using System.Web.Script.Serialization;
 
 namespace JoshDevenyi_PokemonPassionProject.Controllers
@@ -19,7 +20,7 @@ namespace JoshDevenyi_PokemonPassionProject.Controllers
         static PokemonTypeController()
         {
             client = new HttpClient();
-            client.BaseAddress = new Uri("https://localhost:44393/api/pokemontypedata/"); //Set Base Address For File Paths
+            client.BaseAddress = new Uri("https://localhost:44393/api/"); //Set Base Address For File Paths
         }
 
         // GET: PokemonType
@@ -27,7 +28,7 @@ namespace JoshDevenyi_PokemonPassionProject.Controllers
         {
             //curl https://localhost:44393/api/pokemontypedata/listpokemontypes
 
-            string url = "listpokemontypes";
+            string url = "pokemontypedata/listpokemontypes";
             HttpResponseMessage response = client.GetAsync(url).Result;
 
             IEnumerable<PokemonTypeDto> pokemontypes = response.Content.ReadAsAsync<IEnumerable<PokemonTypeDto>>().Result;
@@ -39,12 +40,46 @@ namespace JoshDevenyi_PokemonPassionProject.Controllers
         //curl https://localhost:44393/api/pokemontypedata/findpokemontype/{id}
         public ActionResult Details(int id)
         {
-            string url = "findpokemontype/" + id;
+
+            DetailsPokemonType ViewModel = new DetailsPokemonType();
+
+            //information about the pokemon type itself
+
+            string url = "pokemontypedata/findpokemontype/" + id;
             HttpResponseMessage response = client.GetAsync(url).Result;
+
+            //Debug.WriteLine("1. The response code is ");
+            //Debug.WriteLine(response.StatusCode);
 
             PokemonTypeDto SelectedPokemonType = response.Content.ReadAsAsync<PokemonTypeDto>().Result;
 
-            return View(SelectedPokemonType);
+            //Debug.WriteLine("Type received: ");
+            //Debug.WriteLine(SelectedPokemonType.PokemonTypeName);
+
+            ViewModel.SelectedPokemonType = SelectedPokemonType;
+
+
+            //Showcase information about pokemon related to this type
+            //Send a request to gather information about pokemon related to a particualr pokemon type ID
+
+            url = "pokemondata/listpokemonsforpokemontype/" + id;
+            response = client.GetAsync(url).Result;
+
+            //Check to make sure we successful connected to data controller
+            //Debug.WriteLine("The response code is ");
+            //Debug.WriteLine(response.StatusCode);
+
+            IEnumerable<PokemonDto> RelatedPokemons = response.Content.ReadAsAsync<IEnumerable<PokemonDto>>().Result;
+
+            foreach (var pokemon in RelatedPokemons)
+            {
+                Debug.WriteLine("Pokemons received : ");
+                Debug.WriteLine(pokemon.PokemonName);
+            }
+           
+            ViewModel.RelatedPokemons = RelatedPokemons;
+
+            return View(ViewModel);
         }
 
         // GET: PokemonType/New
@@ -58,7 +93,7 @@ namespace JoshDevenyi_PokemonPassionProject.Controllers
         public ActionResult Create(PokemonType pokemonType)
         {
             //curl -H "Content-Type:application/json" -d @pokemontype.json https://localhost:44393/api/pokemontypedata/addpokemontype
-            string url = "addpokemontype";
+            string url = "pokemontypedata/addpokemontype";
 
             //Converting form data into JSON object
             string jsonpayload = jss.Serialize(pokemonType);
@@ -84,7 +119,7 @@ namespace JoshDevenyi_PokemonPassionProject.Controllers
         public ActionResult Edit(int id)
         {
             //The existing type information
-            string url = "findpokemontype/" + id;
+            string url = "pokemontypedata/findpokemontype/" + id;
             HttpResponseMessage response = client.GetAsync(url).Result;
             PokemonTypeDto SelectedPokemonType = response.Content.ReadAsAsync<PokemonTypeDto>().Result;
             return View(SelectedPokemonType);
@@ -97,7 +132,7 @@ namespace JoshDevenyi_PokemonPassionProject.Controllers
 
             //objective: update the details of a pokemon type already in our system
             //curl -H "Content-Type:application/json" -d @pokemontype.json https://localhost:44393/api/pokemontype/updatepokemontype/{id}
-            string url = "updatepokemontype/" + id;
+            string url = "pokemontypedata/updatepokemontype/" + id;
 
             //Converting form data into JSON object
             string jsonpayload = jss.Serialize(pokemonType);
@@ -127,7 +162,7 @@ namespace JoshDevenyi_PokemonPassionProject.Controllers
         public ActionResult DeleteConfirm(int id)
         {
             //The existing pokemon type information
-            string url = "findpokemontype/" + id;
+            string url = "pokemontypedata/findpokemontype/" + id;
             HttpResponseMessage response = client.GetAsync(url).Result;
             PokemonTypeDto SelectedPokemonType = response.Content.ReadAsAsync<PokemonTypeDto>().Result;
             return View(SelectedPokemonType);
@@ -139,7 +174,7 @@ namespace JoshDevenyi_PokemonPassionProject.Controllers
         {
             try
             {
-                string url = "deletepokemontype/" + id;
+                string url = "pokemontypedata/deletepokemontype/" + id;
 
                 HttpContent content = new StringContent("");
                 content.Headers.ContentType.MediaType = "application/json"; //Specifies that we are sending JSON information as part of the payload

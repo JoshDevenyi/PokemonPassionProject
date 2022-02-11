@@ -16,7 +16,15 @@ namespace JoshDevenyi_PokemonPassionProject.Controllers
     {
         private ApplicationDbContext db = new ApplicationDbContext();
 
-        // GET: api/PokemonTypeData/ListPokemonTypes
+        /// <summary>
+        /// Returns all Pokemon Types in the system.
+        /// </summary>
+        /// <returns>
+        /// CONTENT: All the Pokemon Types in the database
+        /// </returns>
+        /// <example>
+        /// GET: api/PokemonTypeData/ListPokemonTypes
+        /// </example> 
         [HttpGet]
         public IEnumerable<PokemonTypeDto> ListPokemonTypes()
         {
@@ -32,9 +40,21 @@ namespace JoshDevenyi_PokemonPassionProject.Controllers
             return PokemonTypeDtos;
         }
 
-        // GET: api/PokemonTypeData/FindPokemonType/5
-        [ResponseType(typeof(PokemonType))]
+        /// <summary>
+        /// Returns all Pokemon Types in the system.
+        /// </summary>
+        /// <returns>
+        /// HEADER: 200 (OK)
+        /// CONTENT: The Pokemon Type in the system that corresponds to the provided primary key
+        /// or
+        /// HEADER: 404 (NOT FOUND)
+        /// </returns>
+        /// <param name="id">The Pokeon Types primary key</param>
+        /// <example>
+        /// GET: api/PokemonTypeData/FindPokemonType/5
+        /// </example>
         [HttpGet]
+        [ResponseType(typeof(PokemonType))]
         public IHttpActionResult FindPokemonType(int id)
         {
             PokemonType PokemonType = db.PokemonTypes.Find(id);
@@ -53,7 +73,22 @@ namespace JoshDevenyi_PokemonPassionProject.Controllers
             return Ok(PokemonTypeDto);
         }
 
-        // PUT: api/PokemonTypeData/UpdatePokemonType/5
+        /// <summary>
+        /// Updates a specific Pokemon Type in the system with a POST data input
+        /// </summary>
+        /// <param name="id">The Pokemon Types' Primary Key</param>
+        /// <param name="PokemoType">JSON FORM DATA of an Pokemon Type</param>
+        /// <returns>
+        /// HEADER: 204 (Success, No Content Response)
+        /// or
+        /// HEADER: 400 (Bad Request)
+        /// or
+        /// HEADER: 404 (Not Found)
+        /// </returns>
+        /// <example>
+        /// POST: api/PokemonTypeData/UpdatePokemonType/5
+        /// FORM DATA: PokemonType JSON Object
+        /// </example>
         [ResponseType(typeof(void))]
         [HttpPost]
         public IHttpActionResult UpdatePokemonType(int id, PokemonType pokemonType)
@@ -89,7 +124,20 @@ namespace JoshDevenyi_PokemonPassionProject.Controllers
             return StatusCode(HttpStatusCode.NoContent);
         }
 
-        // POST: api/PokemonTypeData/AddPokemonType
+        /// <summary>
+        /// Adds a Pokemon Type to the system
+        /// </summary>
+        /// <param name="PokemonType">JSON FORM DATA of a PokemonType</param>
+        /// <returns>
+        /// HEADER: 201 (Created)
+        /// CONTENT: PokemonType ID, PokemonType Data
+        /// or
+        /// HEADER: 400 (Bad Request)
+        /// </returns>
+        /// <example>
+        /// POST: api/PokemonTypeData/AddPokemonType
+        /// FORM DATA: PokemonType JSON Object
+        /// </example>
         [ResponseType(typeof(PokemonType))]
         [HttpPost]
         public IHttpActionResult AddPokemonType(PokemonType pokemonType)
@@ -105,7 +153,20 @@ namespace JoshDevenyi_PokemonPassionProject.Controllers
             return CreatedAtRoute("DefaultApi", new { id = pokemonType.PokemonTypeId }, pokemonType);
         }
 
-        // DELETE: api/PokemonTypeData/DeletePokemonType/5
+
+        /// <summary>
+        /// Deletes a Pokemon Type from the system based on it's ID.
+        /// </summary>
+        /// <param name="id">A Pokemon Types primary key</param>
+        /// <returns>
+        /// HEADER: 200 (OK)
+        /// or
+        /// HEADER: 404 (NOT FOUND)
+        /// </returns>
+        /// <example>
+        /// POST: api/PokemonTypeData/DeletePokemonType/5
+        /// FORM DATA: (empty)
+        /// </example>
         [ResponseType(typeof(PokemonType))]
         [HttpPost]
         public IHttpActionResult DeletePokemonType(int id)

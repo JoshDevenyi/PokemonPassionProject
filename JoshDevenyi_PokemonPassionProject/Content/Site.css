@@ -22,3 +22,34 @@ select,
 textarea {
     max-width: 280px;
 }
+
+
+
+/* Josh Styles */
+
+.linkBox {
+    margin-top:1em
+}
+
+.inputBox{
+
+    margin: 1em 0;
+
+}
+
+.delete {
+    margin: 1em 0;
+}
+
+input{
+
+    display:block;
+
+}
+
+.bioInput {
+    display: block;
+    resize: none;
+    height: 100px;
+    width: 500px;
+}

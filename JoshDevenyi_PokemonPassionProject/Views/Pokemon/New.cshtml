@@ -1,21 +1,36 @@
-﻿
+﻿@model IEnumerable<JoshDevenyi_PokemonPassionProject.Models.PokemonTypeDto>
+
+
 @{
     ViewBag.Title = "New";
 }
 
-<a href="/Pokemon/List">Back to List</a>
+<div class="linkBox">
+    <a href="/Pokemon/List" class="linkBox">Back to Pokémon List</a>
+</div>
 
 <form action="/Pokemon/Create" method="POST">
-    <div>
+
+    <div class="inputBox">
         <label>Name:</label> <input type="text" name="PokemonName"/>
     </div>
-    <div>
-        <label>Pokedex #:</label> <input type="number" name="PokedexNumber"/>
+
+    <div class="inputBox">
+        <label>Pokédex #:</label> <input type="number" name="PokedexNumber"/>
     </div>
-    <div>
-        <label>Pokemon Type ID:</label> <input type="number" name="PokemonTypeId"/>
+
+    <div class="inputBox">
+        <label>Pokémon Type:</label> 
+        <select name="PokemonTypeId">
+            @foreach (var PokemonType in Model)
+            {
+                <option value="@PokemonType.PokemonTypeId">@PokemonType.PokemonTypeName</option>
+            }
+        </select>
     </div>
-    <div>
-        <input type="submit" value="Add Pokemon" />
+
+    <div class="inputBox">
+        <input type="submit" value="Add Pokémon" />
     </div>
+
 </form>

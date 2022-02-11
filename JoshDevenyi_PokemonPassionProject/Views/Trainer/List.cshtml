@@ -3,13 +3,13 @@
     ViewBag.Title = "List";
 }
 
-<h2>Pokemon Trainers</h2>
+<h2>Pokémon Trainers</h2>
 <a style="color:forestgreen;" href="/Trainer/New">Add Trainer</a>
 
 @foreach (var trainer in Model)
 {
 
-    <a href="/Trainer/Details/@trainer.TrainerId"><h2>@trainer.TrainerName</h2></a>
-    <p>@trainer.TrainerTitle</p>
+    <a href="/Trainer/Details/@trainer.TrainerId"><h3>@trainer.TrainerName</h3></a>
+    <em>@trainer.TrainerTitle</em>
 
 }

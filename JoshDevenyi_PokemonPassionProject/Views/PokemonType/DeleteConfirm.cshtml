@@ -5,8 +5,12 @@
 }
 
 <h2>Are you sure you want to delete @Model.PokemonTypeName?</h2>
-<a href="/PokemonType/List">Cancel</a>
-<form action="/PokemonType/Delete/@Model.PokemonTypeId" method="POST">
+
+<div class="linkBox">
+    <a href="/PokemonType/List">Cancel</a>
+</div>
+
+<form action="/PokemonType/Delete/@Model.PokemonTypeId" method="POST" class="delete">
 
     <input type="submit" style="background-color:red;" value="Confirm Delete" />
 

@@ -16,7 +16,15 @@ namespace JoshDevenyi_PokemonPassionProject.Controllers
     {
         private ApplicationDbContext db = new ApplicationDbContext();
 
-        // GET: api/TrainerData/ListTrainers
+        /// <summary>
+        /// Returns All Trainers in the system.
+        /// </summary>
+        /// <returns>
+        /// CONTENT: All the Trainers in the database
+        /// </returns>
+        /// <example>
+        /// GET: api/TrainerData/ListTrainers
+        /// </example>
         [HttpGet]
         public IEnumerable<TrainerDto> ListTrainers()
         {
@@ -35,7 +43,124 @@ namespace JoshDevenyi_PokemonPassionProject.Controllers
             return TrainerDtos;
         }
 
-        // GET: api/TrainerData/FindTrainer/5
+        /// <summary>
+        /// Returns all Trainers in the system who have caught a particular Pokemon.
+        /// </summary>
+        /// <returns>
+        /// HEADER: 200 (OK)
+        /// CONTENT: all Trainers in the database who have caught a particular Pokemon
+        /// </returns>
+        /// <param name="id">The Trainer's Primary Key</param>
+        /// <example>
+        /// GET: api/TrainerData/ListTrainersForPokemon/5
+        /// </example>
+        [HttpGet]
+        public IEnumerable<TrainerDto> ListTrainersForPokemon(int id)
+        {
+            List<Trainer> Trainers = db.Trainers.Where( 
+                
+                t => t.Pokemons.Any(
+                        p=>p.PokemonId == id)                                  
+                ).ToList();
+
+            List<TrainerDto> TrainerDtos = new List<TrainerDto>();
+
+            Trainers.ForEach(t => TrainerDtos.Add(new TrainerDto()
+            {
+                TrainerId = t.TrainerId,
+                TrainerName = t.TrainerName,
+                TrainerTitle = t.TrainerTitle,
+                TrainerBio = t.TrainerBio
+
+            }));
+
+            return TrainerDtos;
+        }
+
+        /// <summary>
+        /// Associates a particular trainer wtih a particular pokemon when one is caught
+        /// </summary>
+        /// <param name="trainerid">The trainer's primary id key</param>
+        /// <param name="pokemonid">The pokemon's primary id key</param>
+        /// <returns>
+        /// HEADER: 200 (OK)
+        /// or
+        /// HEADER: 400 (NOT FOUND)
+        /// </returns>
+        /// <example>
+        /// POST api/TrainerData/AssociateTrainerWithPokemon/1/17
+        /// </example>
+        [HttpPost]
+        [Route("api/trainerdata/AssociateTrainerWithPokemon/{trainerid}/{pokemonid}")]
+        public IHttpActionResult AssociateTrainerWithPokemon (int trainerid, int pokemonid)
+        {
+
+            Trainer SelectedTrainer = db.Trainers.Include(t=>t.Pokemons).Where(t=>t.TrainerId == trainerid).FirstOrDefault();
+            Pokemon SelectedPokemon = db.Pokemons.Find(pokemonid);
+
+
+            //In case of error
+            if(SelectedTrainer == null || SelectedPokemon == null)
+            {
+                return NotFound();
+            }
+
+
+            SelectedTrainer.Pokemons.Add(SelectedPokemon);
+            db.SaveChanges();
+
+            return Ok();
+        }
+
+
+        /// <summary>
+        /// Removes an association between a particular trainer and a particular pokemon
+        /// </summary>
+        /// <param name="trainerid">The trainer's primary id key</param>
+        /// <param name="pokemonid">The pokemon's primary id key</param>
+        /// <returns>
+        /// HEADER: 200 (OK)
+        /// or
+        /// HEADER: 400 (NOT FOUND)
+        /// </returns>
+        /// <example>
+        /// POST api/TrainerData/UnassociateTrainerWithPokemon/1/17
+        /// </example>
+        [HttpPost]
+        [Route("api/trainerdata/UnassociateTrainerWithPokemon/{trainerid}/{pokemonid}")]
+        public IHttpActionResult UnassociateTrainerWithPokemon(int trainerid, int pokemonid)
+        {
+
+            Trainer SelectedTrainer = db.Trainers.Include(t => t.Pokemons).Where(t => t.TrainerId == trainerid).FirstOrDefault();
+            Pokemon SelectedPokemon = db.Pokemons.Find(pokemonid);
+
+
+            //In case of error
+            if (SelectedTrainer == null || SelectedPokemon == null)
+            {
+                return NotFound();
+            }
+
+
+            SelectedTrainer.Pokemons.Remove(SelectedPokemon);
+            db.SaveChanges();
+
+            return Ok();
+        }
+
+        /// <summary>
+        /// Returns all trainers in the system.
+        /// </summary>
+        /// <returns>
+        /// HEADER: 200 (OK)
+        /// CONTENT: An trainer in the system that corresponds to the provided primary key. 
+        /// or
+        /// HEADER: 404 (NOT FOUND)
+        /// </returns>
+        /// <param name="id">The primary key of the Trainer</param>
+        /// <example>
+        /// GET: api/TrainerData/FindTrainer/5
+        /// </example>
         [ResponseType(typeof(Trainer))]
         [HttpGet]
         public IHttpActionResult FindTrainer(int id)
@@ -59,7 +184,22 @@ namespace JoshDevenyi_PokemonPassionProject.Controllers
         }
 
 
-        // POST: api/TrainerData/UpdateTrainer/5
+        /// <summary>
+        /// Updates a specified trainer in the system with a POST Data input
+        /// </summary>
+        /// <param name="id">Represents the Trainers primary key id</param>
+        /// <param name="Trainer">JSON FORM DATA of an Trainer</param>
+        /// <returns>
+        /// HEADER: 204 (Success, No Content Response)
+        /// or
+        /// HEADER: 400 (Bad Request)
+        /// or
+        /// HEADER: 404 (Not Found)
+        /// </returns>
+        /// <example>
+        /// POST: api/TrainerData/UpdateTrainer/5
+        /// FORM DATA: Trainer JSON Object
+        /// </example>
         [ResponseType(typeof(void))]
         [HttpPost]
         public IHttpActionResult UpdateTrainer(int id, Trainer trainer)
@@ -95,7 +235,20 @@ namespace JoshDevenyi_PokemonPassionProject.Controllers
             return StatusCode(HttpStatusCode.NoContent);
         }
 
-        // POST: api/TrainerData/AddTrainer
+        /// <summary>
+        /// Adds a new Trainer to the system
+        /// </summary>
+        /// <param name="trainer">JSON FORM DATA of a Trainer</param>
+        /// <returns>
+        /// HEADER: 201 (Created)
+        /// CONTENT: Trainer ID, Trainer Data
+        /// or
+        /// HEADER: 400 (Bad Request)
+        /// </returns>
+        /// <example>
+        /// POST: api/TrainerData/AddTrainer
+        /// FORM DATA: Trainer JSON Object
+        /// </example>
         [ResponseType(typeof(Trainer))]
         [HttpPost]
         public IHttpActionResult AddTrainer(Trainer trainer)
@@ -111,7 +264,19 @@ namespace JoshDevenyi_PokemonPassionProject.Controllers
             return CreatedAtRoute("DefaultApi", new { id = trainer.TrainerId }, trainer);
         }
 
-        // POST: api/TrainerData/DeleteTrainer/5
+        /// <summary>
+        /// Deletes an Trainer from the system by a provided id.
+        /// </summary>
+        /// <param name="id">A Trainers Primary Key Id</param>
+        /// <returns>
+        /// HEADER: 200 (OK)
+        /// or
+        /// HEADER: 404 (NOT FOUND)
+        /// </returns>
+        /// <example>
+        /// POST: api/TrainerData/DeleteTrainer/5
+        /// FORM DATA: (empty)
+        /// </example>
         [ResponseType(typeof(Trainer))]
         [HttpPost]
         public IHttpActionResult DeleteTrainer(int id)
