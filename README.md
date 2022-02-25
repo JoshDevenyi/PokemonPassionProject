@@ -1,6 +1,8 @@
-The Pokémon Trainer Tracker is a helpful tool designed to organize and track data for players of the Pokémon franchise of video games. It’s intended as a platform that fans can use to showcase collections of the everybody’s favourite collectable monsters, while also learning specific data about each species. 
+# The Pokemon Trainer Tracker
 
-Current Version: 
+The Pokémon Trainer Tracker is a helpful tool designed to organize and track data for players of the Pokémon franchise of video games. It’s intended as a platform that fans can use to showcase collections of the everybody’s favourite collectable monsters, while also learning specific details about each species. 
+
+# Current Version: 
 
 Information is separated into three main categories: Trainers, Types and Pokémon. Each has full create, read, update, and delete functionality.
 
@@ -18,7 +20,9 @@ Each Type Page showcases lists every Pokémon that belongs to that respective ty
 
 Pokémon Types are color coded. Each Type Page and Pokémon Page showcase this.
 
-Features I’d like to add:
+
+   
+# Features I’d like to add:
 
 •	Including each Pokémon’s stat information.
 
@@ -28,6 +32,6 @@ Features I’d like to add:
 
 •	Having the trainer data be tied to user accounts.
 
-•	Being able to add a picture when creating a new Pokémon, not just through a 
+•	Being able to add a picture when creating a new Pokémon, not just when editing one
 
 
