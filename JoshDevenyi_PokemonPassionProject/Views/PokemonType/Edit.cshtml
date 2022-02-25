@@ -7,7 +7,7 @@
 <h2>Update @Model.PokemonTypeName</h2>
 
 <div class="linkBox">
-    <a href="/PokemonType/Details/@Model.PokemonTypeId">Go Back to @Model.PokemonTypeName</a>
+    <a href="/PokemonType/Details/@Model.PokemonTypeId" class="navLink">Go Back to @Model.PokemonTypeName</a>
 </div>
 
 <form action="/PokemonType/Update/@Model.PokemonTypeId" method="POST">
@@ -19,6 +19,11 @@
     <div class="inputBox">
         <label>Name:</label>
         <input type="text" name="PokemonTypeName" value="@Model.PokemonTypeName" />
+    </div>
+
+    <div class="inputBox">
+        <label>Color:</label>
+        <input type="text" name="PokemonTypeColor" value="@Model.PokemonTypeColor" />
     </div>
 
     <div class="inputBox">

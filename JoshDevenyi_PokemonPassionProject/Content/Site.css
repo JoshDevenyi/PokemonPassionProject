@@ -1,6 +1,20 @@
-﻿body {
+﻿/* FONT IMPORT */
+@import url('https://fonts.googleapis.com/css2?family=Archivo:ital,wght@0,100;0,400;0,700;1,100;1,400;1,700&display=swap');
+
+@font-face {
+    font-family: PokemonSolid;
+}
+
+/*Site Formatting*/
+html {
+    box-sizing: border-box;
+}
+
+
+body {
     padding-top: 50px;
     padding-bottom: 20px;
+    font-family: 'Archivo', sans-serif;
 }
 
 /* Set padding to keep content from hitting the edges */
@@ -24,9 +38,7 @@ textarea {
 }
 
 
-
 /* Josh Styles */
-
 .linkBox {
     margin-top:1em
 }
@@ -37,13 +49,30 @@ textarea {
 
 }
 
+.contentBox {
+    padding: 0 2em;
+}
+
 .delete {
     margin: 1em 0;
 }
 
-input{
+.addLink{
+    color: green;
+}
 
+input{
     display:block;
+}
+
+button {
+    display: block;
+    margin-top: 1em;
+}
+
+.navLink{
+
+    font-size: 1.25em;
 
 }
 
@@ -53,3 +82,45 @@ input{
     height: 100px;
     width: 500px;
 }
+
+.typeBox {
+    width: fit-content;
+    margin: 1em 0;
+    padding: 0 20px;
+    border-radius: 10px;
+}
+
+.typeLink, .typeLink:hover {
+    color: white;
+}
+
+.typeText{
+
+ font-weight:bold;
+
+}
+
+.trainerContent + .trainerContent {
+
+    margin-top: 2.5em;
+
+}
+
+.pokePicture {
+
+    width: 300px;
+
+}
+
+.mainTitle {
+
+    width: 65%;
+    margin-bottom: 40px;
+
+}
+
+.navbar {
+    background-color:#072e0a;
+}
+
+

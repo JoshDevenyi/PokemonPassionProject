@@ -1,4 +1,6 @@
 ﻿using System;
+using System.IO;
+using System.Web;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
@@ -10,6 +12,7 @@ using System.Web.Http;
 using System.Web.Http.Description;
 using JoshDevenyi_PokemonPassionProject.Models;
 using System.Diagnostics;
+
 
 namespace JoshDevenyi_PokemonPassionProject.Controllers
 {
@@ -37,7 +40,9 @@ namespace JoshDevenyi_PokemonPassionProject.Controllers
                 PokemonId = a.PokemonId,
                 PokemonName = a.PokemonName,
                 PokedexNumber = a.PokedexNumber,
-                PokemonType = a.PokemonType.PokemonTypeName
+                PokemonTypeId = a.PokemonType.PokemonTypeId,
+                PokemonType = a.PokemonType.PokemonTypeName,
+                PokemonTypeColor = a.PokemonType.PokemonTypeColor
 
             })) ;
 
@@ -66,7 +71,9 @@ namespace JoshDevenyi_PokemonPassionProject.Controllers
                 PokemonId = a.PokemonId,
                 PokemonName = a.PokemonName,
                 PokedexNumber = a.PokedexNumber,
-                PokemonType = a.PokemonType.PokemonTypeName
+                PokemonTypeId = a.PokemonType.PokemonTypeId,
+                PokemonType = a.PokemonType.PokemonTypeName,
+                PokemonTypeColor = a.PokemonType.PokemonTypeColor
 
             }));
 
@@ -98,7 +105,9 @@ namespace JoshDevenyi_PokemonPassionProject.Controllers
                 PokemonId = a.PokemonId,
                 PokemonName = a.PokemonName,
                 PokedexNumber = a.PokedexNumber,
-                PokemonType = a.PokemonType.PokemonTypeName
+                PokemonTypeId = a.PokemonType.PokemonTypeId,
+                PokemonType = a.PokemonType.PokemonTypeName,
+                PokemonTypeColor = a.PokemonType.PokemonTypeColor
 
             }));
 
@@ -130,7 +139,11 @@ namespace JoshDevenyi_PokemonPassionProject.Controllers
                 PokemonId = a.PokemonId,
                 PokemonName = a.PokemonName,
                 PokedexNumber = a.PokedexNumber,
-                PokemonType = a.PokemonType.PokemonTypeName
+                PokemonHasPic = a.PokemonHasPic,
+                PicExtension = a.PicExtension,
+                PokemonTypeId = a.PokemonType.PokemonTypeId,
+                PokemonType = a.PokemonType.PokemonTypeName,
+                PokemonTypeColor = a.PokemonType.PokemonTypeColor
             }));
 
             return PokemonDtos;
@@ -159,7 +172,11 @@ namespace JoshDevenyi_PokemonPassionProject.Controllers
                 PokemonId = Pokemon.PokemonId,
                 PokemonName = Pokemon.PokemonName,
                 PokedexNumber = Pokemon.PokedexNumber,
-                PokemonType = Pokemon.PokemonType.PokemonTypeName
+                PokemonHasPic = Pokemon.PokemonHasPic,
+                PicExtension = Pokemon.PicExtension,
+                PokemonTypeId = Pokemon.PokemonType.PokemonTypeId,
+                PokemonType = Pokemon.PokemonType.PokemonTypeName,
+                PokemonTypeColor = Pokemon.PokemonType.PokemonTypeColor
             };
             if (Pokemon == null)
             {
@@ -219,6 +236,97 @@ namespace JoshDevenyi_PokemonPassionProject.Controllers
 
             return StatusCode(HttpStatusCode.NoContent);
         }
+
+        /// <summary>
+        /// Receives picture data of a pokemon, uploads it to the webserver and updates the Pokemon's HasPic status
+        /// </summary>
+        /// <param name="id">the Pokemon id</param>
+        /// <returns>status code 200 if successful.</returns>
+        /// <example>
+        /// curl -F pokmeonpic=@file.jpg "https://localhost:xx/api/pokemondata/uploadpokemonpic/5"
+        /// POST: api/pokemondata/updatepokemonpic/5
+        /// HEADER: enctype=multipart/form-data
+        /// FORM-DATA: image
+        /// </example>
+        /// Based on code from Christine Bittle's Zoo Application Version 5: https://github.com/christinebittle/ZooApplication_5
+        [HttpPost]
+        public IHttpActionResult UploadPokemonPic(int id)
+        {
+
+            bool haspic = false;
+            string picextension;
+            if (Request.Content.IsMimeMultipartContent())
+            {
+                Debug.WriteLine("Recieved multipart data.");
+
+                int numfiles = HttpContext.Current.Request.Files.Count;
+                Debug.WriteLine("Files Received: " + numfiles);
+
+                //Checking if a file was posted
+                if (numfiles == 1 && HttpContext.Current.Request.Files[0] != null)
+                {
+                    var pokemonPic = HttpContext.Current.Request.Files[0];
+
+                    //Checking if the file is empty
+                    if (pokemonPic.ContentLength > 0)
+                    {
+                        //Establishing valid file types
+
+                        var valtypes = new[] { "jpeg", "jpg", "png", "gif" };
+                        var extension = Path.GetExtension(pokemonPic.FileName).Substring(1);
+
+                        //Checking the extension of the file
+
+                        if (valtypes.Contains(extension))
+                        {
+                            try
+                            {
+                                //Making the file name the id of the image
+                                string filename = id + "." + extension;
+
+                                //getting a direct file path to ~/Content/Images/Pokemon/{id}.{extension}
+                                string path = Path.Combine(HttpContext.Current.Server.MapPath("~/Content/Images/Pokemon/"), filename);
+                                Debug.WriteLine(path);
+
+                                //Save file
+                                pokemonPic.SaveAs(path);
+
+                                //if everything is successful, set the haspic and picextension fields
+                                haspic = true;
+                                picextension = extension;
+
+                                //Update the Pokemon haspic and picextension columns in the database
+                                Pokemon SelectPokemon = db.Pokemons.Find(id);
+                                SelectPokemon.PokemonHasPic = haspic;
+                                SelectPokemon.PicExtension = extension;
+                                db.Entry(SelectPokemon).State = EntityState.Modified;
+
+                                db.SaveChanges();
+                            }
+                            catch (Exception ex)
+                            {
+                                Debug.WriteLine("Pokemon image failed to save.");
+                                Debug.WriteLine("Exception:" + ex);
+                                return BadRequest();
+                            }
+                        }
+
+                    }
+
+                }
+
+                return Ok();
+            }
+            else
+            {
+
+                return BadRequest();
+
+            }
+
+        }
+
+
 
         /// <summary>
         /// Adds an Pokemon to the system

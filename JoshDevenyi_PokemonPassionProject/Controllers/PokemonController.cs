@@ -157,9 +157,10 @@ namespace JoshDevenyi_PokemonPassionProject.Controllers
 
         // POST: Pokemon/Update/5
         [HttpPost]
-        public ActionResult Update(int id, Pokemon pokemon)
+        public ActionResult Update(int id, Pokemon pokemon, HttpPostedFileBase PokemonPic)
         {
 
+            //UPDATING POKEMON
             //objective: update the details of a pokemon already in our system
             //curl -H "Content-Type:application/json" -d @pokemon.json https://localhost:44393/api/pokemondata/updatepokemon/{id}
             string url = "pokemondata/updatepokemon/" + id;
@@ -172,6 +173,25 @@ namespace JoshDevenyi_PokemonPassionProject.Controllers
 
             //Sending Javascript Payload to URL through the client
             HttpResponseMessage response = client.PostAsync(url, content).Result;
+            Debug.WriteLine(content);
+
+            //UPDATING POKEMON PICTURE
+            if (response.IsSuccessStatusCode && PokemonPic != null)
+            {
+                //Updating the Pokemon Picture as a Separate Request
+                Debug.WriteLine("Calling Update Image Method");
+
+                //Send Over Data The Image Data
+
+                url = "PokemonData/UploadPokemonPic/" + id;
+
+                MultipartFormDataContent requestcontent = new MultipartFormDataContent();
+                HttpContent imagecontent = new StreamContent(PokemonPic.InputStream);
+                requestcontent.Add(imagecontent, "PokemonPic", PokemonPic.FileName);
+                response = client.PostAsync(url, requestcontent).Result;
+
+                return RedirectToAction("List");
+            }
 
             //Checking that response was successful
             if (response.IsSuccessStatusCode)

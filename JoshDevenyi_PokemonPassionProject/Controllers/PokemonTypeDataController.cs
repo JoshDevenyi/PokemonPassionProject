@@ -35,6 +35,7 @@ namespace JoshDevenyi_PokemonPassionProject.Controllers
             {
                 PokemonTypeId = a.PokemonTypeId,
                 PokemonTypeName = a.PokemonTypeName,
+                PokemonTypeColor = a.PokemonTypeColor,
             }));
 
             return PokemonTypeDtos;
@@ -62,6 +63,8 @@ namespace JoshDevenyi_PokemonPassionProject.Controllers
             {
                 PokemonTypeId = PokemonType.PokemonTypeId,
                 PokemonTypeName = PokemonType.PokemonTypeName,
+                PokemonTypeColor = PokemonType.PokemonTypeColor,
+
 
             };
 

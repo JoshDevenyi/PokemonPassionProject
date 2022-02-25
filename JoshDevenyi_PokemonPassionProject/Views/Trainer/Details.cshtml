@@ -5,46 +5,61 @@
 }
 
 <div class="linkBox">
-    <a href="/Trainer/List">Go Back to Trainer List</a>
+    <a href="/Trainer/List" class="navLink">Go Back to Trainer List</a>
     <br />
-    <a href="/Trainer/Edit/@Model.SelectedTrainer.TrainerId">Edit Trainer Details</a>
+    <a href="/Trainer/Edit/@Model.SelectedTrainer.TrainerId" class="navLink">Edit Trainer Details</a>
     <br />
-    <a style="color:red;" href="/Trainer/DeleteConfirm/@Model.SelectedTrainer.TrainerId">Delete Trainer</a>
+    <a style="color:red;" href="/Trainer/DeleteConfirm/@Model.SelectedTrainer.TrainerId" class="navLink">Delete Trainer</a>
 </div>
 
-<h2>@Model.SelectedTrainer.TrainerName</h2>
-<em>@Model.SelectedTrainer.TrainerTitle</em>
 
-<h3>Trainer Bio:</h3>
-<p>@Model.SelectedTrainer.TrainerBio</p>
+<div class="trainerContent">
+    <h2>@Model.SelectedTrainer.TrainerName</h2>
+    <em>@Model.SelectedTrainer.TrainerTitle</em>
+</div>
+
+<div class="trainerContent">
+    <h3>Trainer Bio:</h3>
+    <p>@Model.SelectedTrainer.TrainerBio</p>
+</div>
 
 
+<div class="trainerContent">
 
-<div>
-    <h3>List of Pokémon Caught:</h3>
-    @foreach (var pokemon in Model.CaughtPokemons)
-    {
+    @{
+        int pCount = Model.CaughtPokemons.Count();
 
-        <h4>
-            <a href="/Pokemon/Details/@pokemon.PokemonId">@pokemon.PokemonName</a>
-            <a href="/Trainer/Unassociate/@Model.SelectedTrainer.TrainerId?PokemonId=@pokemon.PokemonId" style="color:red">[x]</a>
-        </h4>
+        if (pCount > 0)
+        {
 
+            <h3>List of Pokémon Caught:</h3>
+            foreach (var pokemon in Model.CaughtPokemons)
+            {
+
+                <h4>
+                    <a href="/Pokemon/Details/@pokemon.PokemonId">@pokemon.PokemonName</a>
+                    <a href="/Trainer/Unassociate/@Model.SelectedTrainer.TrainerId?PokemonId=@pokemon.PokemonId" style="color:red">[x]</a>
+                </h4>
+
+            }
+
+        }
     }
+
 </div>
 
-<div>
+<div class="trainerContent">
 
     <h3>Caught a new Pokémon?</h3>
 
-    <form method="POST" action="/Trainer/Associate/@Model.SelectedTrainer.TrainerId">
+    <form method="POST" action="/Trainer/Associate/@Model.SelectedTrainer.TrainerId" id="TrainerPokemonList">
         <select name="PokemonId">
             @foreach(var pokemon in Model.RemainingPokemons)
             {
                 <option value="@pokemon.PokemonId">@pokemon.PokemonName</option>
             }
         </select>
-        <input type="submit" value="Caught Pokémon" />
+        <button form="TrainerPokemonList">Caught Pokémon <img src="~/Content/Images/pokeball_icon.png" width="25" alt="Black Pokeball Outline"/></button>
     </form>
 
 </div>

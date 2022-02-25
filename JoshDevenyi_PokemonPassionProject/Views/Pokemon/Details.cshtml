@@ -5,30 +5,47 @@
 }
 
 <div class ="linkBox">
-    <a href="/Pokemon/List">Go Back to Pokémon List</a>
+    <a href="/Pokemon/List" class="navLink">Go Back to Pokémon List</a>
     <br />
-    <a href="/Pokemon/Edit/@Model.SelectedPokemon.PokemonId">Edit Pokémon Details</a>
+    <a href="/Pokemon/Edit/@Model.SelectedPokemon.PokemonId" class="navLink">Edit Pokémon Details</a>
     <br />
-    <a style="color:red;" href="/Pokemon/DeleteConfirm/@Model.SelectedPokemon.PokemonId">Delete Pokémon</a>
+    <a style="color:red;" href="/Pokemon/DeleteConfirm/@Model.SelectedPokemon.PokemonId" class="navLink">Delete Pokémon</a>
 </div>
 
+<div class="contentBox" style="border-left: 20px solid @Model.SelectedPokemon.PokemonTypeColor; border-right: 20px solid @Model.SelectedPokemon.PokemonTypeColor;">
+    
+    <h2>@Model.SelectedPokemon.PokemonName</h2>
+    <p>Pokédex Number: @Model.SelectedPokemon.PokedexNumber</p>
+    <p>Type: <span class="typeText" style="color: @Model.SelectedPokemon.PokemonTypeColor";>@Model.SelectedPokemon.PokemonType</span></p>
+    <p><em>Stats Coming Soon</em></p>
 
-<h2>@Model.SelectedPokemon.PokemonName</h2>
-<p>Pokédex Number: #@Model.SelectedPokemon.PokedexNumber</p>
-<p>Type: @Model.SelectedPokemon.PokemonType</p>
-<p><em>Stats Coming Soon</em></p>
+    @{ 
+        string imageurl = "/Content/Images/Pokemon/pokeball_colored.png";
+        if (Model.SelectedPokemon.PokemonHasPic)
+            {
+               imageurl = "/Content/Images/Pokemon/" + Model.SelectedPokemon.PokemonId + "." + Model.SelectedPokemon.PicExtension;
+            }
+     }
 
+    <div><img class="pokePicture" alt="@Model.SelectedPokemon.PokemonName" src="@imageurl"/></div>
 
-<div>
+    <div>
+        @{
+            int tCount = Model.SuccessfulTrainers.Count();
 
-    <h3 style="margin-top:1em">@Model.SelectedPokemon.PokemonName Owners:</h3>
+            if (tCount > 0)
+            {
 
-    @foreach (var trainer in Model.SuccessfulTrainers)
-    {
+                <h3 style="margin-top:1em">@Model.SelectedPokemon.PokemonName Owners:</h3>
 
-        <h4><a href="/Trainer/Details/@trainer.TrainerId">@trainer.TrainerName</a></h4>
+                foreach (var trainer in Model.SuccessfulTrainers)
+                {
 
-    }
+                    <h4><a href="/Trainer/Details/@trainer.TrainerId">@trainer.TrainerName</a></h4>
+
+                }
+            }
+        }
+    </div>
 </div>
-
 

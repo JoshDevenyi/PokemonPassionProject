@@ -7,10 +7,10 @@
 <h2>Update @Model.SelectedPokemon.PokemonName Details</h2>
 
 <div class="linkBox">
-    <a href="/Pokemon/List">Back to Pokémon List</a>
+    <a href="/Pokemon/List" class="navLink">Back to Pokémon List</a>
 </div>
 
-<form action="/Pokemon/Update/@Model.SelectedPokemon.PokemonId" method="POST">
+<form action="/Pokemon/Update/@Model.SelectedPokemon.PokemonId" method="POST" enctype="multipart/form-data">
 
     <div style="display:none;">
         <input type="number" name="PokemonId" value="@Model.SelectedPokemon.PokemonId" />
@@ -31,9 +31,18 @@
         <select name="PokemonTypeId">
             @foreach (var PokemonType in Model.PokemonTypeOptions)
             {
-                <option value="@PokemonType.PokemonTypeId">@PokemonType.PokemonTypeName</option>
+                var selected = "";
+                if (PokemonType.PokemonTypeId == Model.SelectedPokemon.PokemonTypeId)
+                {
+                    selected = "selected";
+                }
+            <option value="@PokemonType.PokemonTypeId" @selected>@PokemonType.PokemonTypeName</option>
             }
         </select>
+    </div>
+
+    <div class="inputBox">
+        <input type="file" name="PokemonPic" />
     </div>
 
     <div class="inputBox">

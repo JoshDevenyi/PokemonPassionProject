@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@ViewBag.Title - My ASP.NET Application</title>
+    <title>@ViewBag.Title - Pokemon Trainer Tracker</title>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
 
@@ -21,10 +21,10 @@
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("Home", "Index", "Home")</li>
-                    <li>@Html.ActionLink("Trainers", "List", "Trainer")</li>
-                    <li>@Html.ActionLink("Pokémon", "List", "Pokemon")</li>
-                    <li>@Html.ActionLink("Types", "List", "PokemonType")</li>
+                    <li class="navbar-link">@Html.ActionLink("Home", "Index", "Home")</li>
+                    <li class="navbar-link">@Html.ActionLink("Trainers", "List", "Trainer")</li>
+                    <li class="navbar-link">@Html.ActionLink("Pokémon", "List", "Pokemon")</li>
+                    <li class="navbar-link">@Html.ActionLink("Types", "List", "PokemonType")</li>
                 </ul>
                 @Html.Partial("_LoginPartial")
             </div>
@@ -34,7 +34,13 @@
         @RenderBody()
         <hr />
         <footer>
-            <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
+            <div>
+                <p>&copy; @DateTime.Now.Year - Joshua Devenyi </p>
+            </div>
+            <div>
+                <p>Student Project</p>
+            </div>
+
         </footer>
     </div>
 

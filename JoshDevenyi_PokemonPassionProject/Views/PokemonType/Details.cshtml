@@ -5,16 +5,17 @@
 }
 
 <div class="linkBox">
-    <a href="/PokemonType/List">Go Back to Type List</a>
+    <a href="/PokemonType/List" class="navLink">Go Back to Type List</a>
     <br />
-    <a href="/PokemonType/Edit/@Model.SelectedPokemonType.PokemonTypeId">Edit Type Details</a>
+    <a href="/PokemonType/Edit/@Model.SelectedPokemonType.PokemonTypeId" class="navLink">Edit Type Details</a>
     <br />
-    <a style="color:red;" href="/PokemonType/DeleteConfirm/@Model.SelectedPokemonType.PokemonTypeId">Delete Type</a>
+    <a style="color:red;" href="/PokemonType/DeleteConfirm/@Model.SelectedPokemonType.PokemonTypeId" class="navLink">Delete Type</a>
 </div>
 
-<div>
+<div class="contentBox" style="border-left: 20px solid @Model.SelectedPokemonType.PokemonTypeColor; border-right: 20px solid @Model.SelectedPokemonType.PokemonTypeColor;">
 
-    <h2>List of @Model.SelectedPokemonType.PokemonTypeName Pokémon</h2>
+
+    <h2>List of <span style="color: @Model.SelectedPokemonType.PokemonTypeColor;">@Model.SelectedPokemonType.PokemonTypeName</span> Pokémon</h2>
 
     @foreach (var pokemon in Model.RelatedPokemons)
     {
@@ -24,3 +25,6 @@
     }
 
 </div>
+
+
+

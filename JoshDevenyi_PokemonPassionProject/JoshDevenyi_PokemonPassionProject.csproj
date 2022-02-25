@@ -232,6 +232,14 @@
     <Compile Include="Migrations\202202040059562_UpdatedPokemonTypesTable.Designer.cs">
       <DependentUpon>202202040059562_UpdatedPokemonTypesTable.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202202210045526_typecolor.cs" />
+    <Compile Include="Migrations\202202210045526_typecolor.Designer.cs">
+      <DependentUpon>202202210045526_typecolor.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202202230235048_adding-pokemon-image-collumns.cs" />
+    <Compile Include="Migrations\202202230235048_adding-pokemon-image-collumns.Designer.cs">
+      <DependentUpon>202202230235048_adding-pokemon-image-collumns.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\IdentityModels.cs" />
@@ -327,6 +335,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Content\Images\Pokemon\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
@@ -371,6 +380,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202202040059562_UpdatedPokemonTypesTable.resx">
       <DependentUpon>202202040059562_UpdatedPokemonTypesTable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202202210045526_typecolor.resx">
+      <DependentUpon>202202210045526_typecolor.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202202230235048_adding-pokemon-image-collumns.resx">
+      <DependentUpon>202202230235048_adding-pokemon-image-collumns.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

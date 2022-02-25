@@ -12,6 +12,8 @@ namespace JoshDevenyi_PokemonPassionProject.Models
         public int PokemonTypeId { get; set; }
         public string PokemonTypeName { get; set; }
 
+        public string PokemonTypeColor { get; set; }
+
         //A Pokemon Type can belong to many Pokemon
         public ICollection<Pokemon> Pokemons { get; set; }
     }
@@ -20,6 +22,7 @@ namespace JoshDevenyi_PokemonPassionProject.Models
     {
         public int PokemonTypeId { get; set; }
         public string PokemonTypeName { get; set; }
+        public string PokemonTypeColor { get; set; }
 
     }
 }

@@ -6,11 +6,15 @@
 }
 
 <h2>Pokémon Types</h2>
-<a style="color:forestgreen;" href="/PokemonType/New">Add Type</a>
+<a class="addLink navLink" href="/PokemonType/New">Add Type</a>
 
 @foreach (var pokemontype in Model)
 {
 
-    <a href="/PokemonType/Details/@pokemontype.PokemonTypeId"><h3>@pokemontype.PokemonTypeName</h3></a>
+<div style="background-color: @pokemontype.PokemonTypeColor" class="typeBox">
+
+    <a href="/PokemonType/Details/@pokemontype.PokemonTypeId" class="typeLink"><h3>@pokemontype.PokemonTypeName</h3></a>
+
+</div>
 
 }

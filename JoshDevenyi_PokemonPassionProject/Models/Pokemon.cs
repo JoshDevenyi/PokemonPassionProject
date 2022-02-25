@@ -16,18 +16,16 @@ namespace JoshDevenyi_PokemonPassionProject.Models
         //Adding Pokedex number
         public int PokedexNumber { get; set; }
 
+        //Data required for keeping track of pokemon images uploaded
+        //Images will be deposited in /Content/Images/Pokemon/{id}.{extension}
+        public bool PokemonHasPic { get; set; }
+        public string PicExtension { get; set; }
+
         [ForeignKey("PokemonType")]
         //Primary Pokemon Type
         //A pokemon has one primary type. A type can belong to many pokemon.
         public int PokemonTypeId { get; set; }
         public virtual PokemonType PokemonType { get; set; }
-
-        //NOT USING
-        //[ForeignKey("PokemonType")]
-        ////Secondary Pokemon Type
-        ////Some pokemon have a secondary type, some do not (aka Nullable). A type can belong to many pokemon.
-        //public int SecondaryTypeId { get; set; }
-        //public virtual PokemonType PokemonType { get; set; }
 
         //A Pokemon can be caught by many trainers
         public ICollection<Trainer> Trainers { get; set; }
@@ -41,7 +39,14 @@ namespace JoshDevenyi_PokemonPassionProject.Models
         public int PokemonId { get; set; }
         public string PokemonName { get; set; }
         public int PokedexNumber { get; set; }
+        public int PokemonTypeId { get; set; }
         public string PokemonType { get; set; }
+        public string PokemonTypeColor { get; set; }
+
+        //Data required for keeping track of pokemon images uploaded
+        //Images will be deposited in /Content/Images/Pokemon/{id}.{extension}
+        public bool PokemonHasPic { get; set; }
+        public string PicExtension { get; set; }
 
     }
 
